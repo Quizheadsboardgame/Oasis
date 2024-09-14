@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis Quiz</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Baloo 2', sans-serif;
+            background-color: #38B6FF; /* Background color */
+            color: black;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        #yellow-box {
+            width: 300px;
+            height: 300px;
+            background-color: #FED405; /* Yellow color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            border: 5px solid black; /* Black edging */
+            transition: transform 0.1s ease-in-out;
+        }
+
+        #question-answer {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /* Keyframes for the bounce animation */
+        @keyframes bounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Class to trigger the bounce animation */
+        .animate-bounce {
+            animation: bounce 0.3s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="yellow-box">OASIS</div>
+
+    <div id="question-answer"></div>
+
+    <script>
+        const yellowBox = document.getElementById("yellow-box");
+        const questionAnswerDiv = document.getElementById("question-answer");
+
+        // Array of questions and answers about Oasis
+        const oasisQuestions = [
+            { question: "What is the title of Oasis's debut album released in 1994?", answer: "Definitely Maybe" },
+            { question: "Which Oasis song features the lyrics 'I want to be alone'?", answer: "Wonderwall" },
+            { question: "Which album includes the hit single 'Don't Look Back in Anger'?", answer: "What's the Story Morning Glory?" },
+            { question: "Who is the lead vocalist of Oasis?", answer: "Liam Gallagher" },
+            { question: "Which Oasis song begins with the lyrics 'I need to be myself'?", answer: "Songbird" },
+            { question: "What is the name of Oasis's third studio album released in 1997?", answer: "Be Here Now" },
+            { question: "Which Oasis song features the lyrics 'Because maybe, you're gonna be the one that saves me'?", answer: "Wonderwall" },
+            { question: "Which Oasis album features the track 'Champagne Supernova'?", answer: "What's the Story Morning Glory?" },
+            { question: "What is the name of Oasis's 2000 album?", answer: "Standing on the Shoulder of Giants" },
+            { question: "Which Oasis album was released in 2005 and includes the song 'Lyla'?", answer: "Don't Believe the Truth" },
+            { question: "Who is the main songwriter for Oasis alongside Liam Gallagher?", answer: "Noel Gallagher" },
+            { question: "Which Oasis song is known for its catchy chorus 'I said maybe'?", answer: "Wonderwall" },
+            { question: "What 1996 single by Oasis is an anthem for the Britpop era?", answer: "Don't Look Back in Anger" },
+            { question: "What is the name of Oasis's album released in 2008?", answer: "Dig Out Your Soul" },
+            { question: "Which Oasis song includes the lyrics 'I know I said I'd never let you go'?", answer: "Songbird" },
+            { question: "What is the title of Oasis's 2002 album?", answer: "Heathen Chemistry" },
+            { question: "Which Oasis song features the lyrics 'You and I are gonna live forever'?", answer: "Live Forever" },
+            { question: "What is the name of Oasis's album released in 1999?", answer: "The Masterplan" },
+            { question: "Which Oasis album features the track 'Supersonic'?", answer: "Definitely Maybe" },
+            { question: "What 1995 single by Oasis is known for its iconic guitar riff?", answer: "Some Might Say" },
+            { question: "What is the name of the song that includes the lyrics 'I try to be as strong as I can'?", answer: "Songbird" },
+            { question: "Which Oasis album features the track 'D'You Know What I Mean'?", answer: "Be Here Now" },
+            { question: "What is the title of Oasis's 1996 album?", answer: "What's the Story Morning Glory?" },
+            { question: "Which song by Oasis includes the lyrics 'I'm a big fan of the world'?", answer: "Morning Glory" },
+            { question: "What Oasis song has the line 'I’m gonna start a revolution from my bed'?", answer: "Don't Look Back in Anger" },
+            { question: "Which Oasis album features the song 'The Importance of Being Idle'?", answer: "Don't Believe the Truth" },
+            { question: "What Oasis single was released in 2002 and is known for its catchy chorus?", answer: "The Hindu Times" },
+            { question: "What is the name of the song with the lyrics 'I just want to be myself'?", answer: "Songbird" },
+            { question: "Which Oasis album includes the track 'Cigarettes & Alcohol'?", answer: "Definitely Maybe" },
+            { question: "What 1998 single by Oasis is known for its anthemic sound?", answer: "All Around the World" },
+            { question: "What is the title of Oasis's 2001 album?", answer: "Standing on the Shoulder of Giants" },
+            { question: "Which Oasis song features the lyrics 'I need to know, is there a chance for us'?", answer: "Stop Crying Your Heart Out" },
+            { question: "What is the name of the song with the lyrics 'You're gonna live forever in me'?", answer: "Live Forever" },
+            { question: "Which Oasis album was released in 2005 and includes the song 'The Importance of Being Idle'?", answer: "Don't Believe the Truth" },
+            { question: "What Oasis song features the lyrics 'You can’t see me now'?", answer: "Songbird" },
+            { question: "What is the title of the 2000 Oasis album that features the single 'Go Let It Out'?", answer: "Standing on the Shoulder of Giants" },
+            { question: "Which Oasis album features the track 'Stand By Me'?", answer: "Be Here Now" },
+            { question: "What 1995 song by Oasis is known for its poignant lyrics?", answer: "Wonderwall" },
+            { question: "What is the name of the song that includes the lyrics 'We are the people, we are the ones'?", answer: "Little by Little" },
+            { question: "Which Oasis album features the track 'Acquiesce'?", answer: "The Masterplan" },
+            { question: "What 2008 Oasis album features the single 'The Shock of the Lightning'?", answer: "Dig Out Your Soul" },
+            { question: "What is the title of the Oasis song with the lyrics 'The truth is I've never loved you'?", answer: "Songbird" },
+            { question: "Which Oasis album was released in 1994 and features the song 'Supersonic'?", answer: "Definitely Maybe" },
+            { question: "What Oasis single released in 1996 is known for its catchy chorus?", answer: "Champagne Supernova" },
+            { question: "What is the name of the song that features the lyrics 'I don't want to know'?", answer: "The Hindu Times" },
+            { question: "Which Oasis album includes the track 'Morning Glory'?", answer: "What's the Story Morning Glory?" },
+            { question: "What 1994 Oasis album features the track 'Shakermaker'?", answer: "Definitely Maybe" },
+            { question: "What is the name of the song with the lyrics 'You were all I had'?", answer: "Don't Look Back in Anger" },
+            { question: "Which Oasis album features the track 'Songbird'?", answer: "Don't Believe the Truth" },
+            { question: "What Oasis song from the album 'Be Here Now' features the lyrics 'I’m gonna get my own way'?", answer: "Magic Pie" },
+            { question: "What is the title of the song with the lyrics 'I’m never gonna leave you'?", answer: "Live Forever" },
+            { question: "Which Oasis album includes the song 'The Shock of the Lightning'?", answer: "Dig Out Your Soul" },
+            { question: "What is the name of the song that includes the lyrics 'You’ll never be alone'?", answer: "Stop Crying Your Heart Out" },
+            { question: "What 1996 Oasis single features the lyrics 'I’ll be your friend'?", answer: "Don't Look Back in Anger" },
+            { question: "Which Oasis album features the track 'My Big Mouth'?", answer: "Be Here Now" },
+            { question: "What is the title of the Oasis song with the lyrics 'All I need is time'?", answer: "Songbird" },
+            { question: "Which Oasis album includes the song 'Little by Little'?", answer: "Heathen Chemistry" },
+            { question: "What is the name of the song that features the lyrics 'I wanna be your man'?", answer: "Little by Little" },
+            { question: "What 1994 Oasis single features the lyrics 'And all I see'?", answer: "Shakermaker" },
+            { question: "Which Oasis album was released in 2002 and includes the track 'Stop Crying Your Heart Out'?", answer: "Heathen Chemistry" },
+            { question: "What is the title of the Oasis song with the lyrics 'You could be my hero'?", answer: "Wonderwall" },
+            { question: "Which Oasis album features the track 'A Bell Will Ring'?", answer: "Don't Believe the Truth" },
+            { question: "What is the name of the song with the lyrics 'You got a friend in me'?", answer: "Songbird" },
+            { question: "What Oasis album released in 2008 includes the track 'Falling Down'?", answer: "Dig Out Your Soul" },
+            { question: "What is the title of the Oasis song with the lyrics 'I’m gonna find my way'?", answer: "Songbird" },
+            { question: "Which Oasis album includes the track 'Morning Glory'?", answer: "What's the Story Morning Glory?" },
+            { question: "What is the name of the song with the lyrics 'Let’s live forever'?", answer: "Live Forever" },
+            { question: "What 1997 Oasis single features the lyrics 'You can't see me now'?", answer: "All Around the World" },
+            { question: "Which Oasis album features the track 'Round Are Way'?", answer: "The Masterplan" },
+            { question: "What is the title of the Oasis song with the lyrics 'I don't wanna be alone'?", answer: "Songbird" },
+            { question: "Which Oasis album includes the track 'Go Let It Out'?", answer: "Standing on the Shoulder of Giants" },
+            { question: "What is the name of the song with the lyrics 'I need you now'?", answer: "Stop Crying Your Heart Out" },
+            { question: "What Oasis album released in 1995 includes the track 'Roll with It'?", answer: "What's the Story Morning Glory?" },
+            { question: "Which Oasis album features the track 'The Shock of the Lightning'?", answer: "Dig Out Your Soul" },
+            { question: "What is the name of the song that includes the lyrics 'I’m feeling good tonight'?", answer: "Songbird" }
+        ];
+
+        let shuffledQuestions = [];
+        let questionIndex = 0;
+
+        // Shuffle the questions array
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Initialize questions
+        function initializeQuestions() {
+            shuffledQuestions = shuffleArray([...oasisQuestions]);
+            questionIndex = 0;
+            displayQuestion();
+        }
+
+        // Function to display the current question
+        function displayQuestion() {
+            if (shuffledQuestions.length === 0) {
+                questionAnswerDiv.innerHTML = "<strong>No more questions!</strong>";
+                return;
+            }
+            const currentQA = shuffledQuestions[questionIndex];
+            questionAnswerDiv.innerHTML = `<strong>Question:</strong> ${currentQA.question}<br><strong>Answer:</strong> ${currentQA.answer}`;
+        }
+
+        // Bounce animation on click
+        yellowBox.addEventListener("click", () => {
+            yellowBox.classList.add("animate-bounce");
+            setTimeout(() => {
+                yellowBox.classList.remove("animate-bounce");
+            }, 300);
+            questionIndex = (questionIndex + 1) % shuffledQuestions.length;
+            displayQuestion();
+        });
+
+        // Initialize the quiz
+        initializeQuestions();
+    </script>
+
+</body>
+</html>
